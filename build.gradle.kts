@@ -15,3 +15,12 @@ val kotlinVersion = project.properties.get("kotlinVersion")
 repositories {
     mavenCentral()
 }
+
+subprojects {
+    apply {
+        plugin("java-library")
+        plugin("org.jetbrains.kotlin.jvm")
+        plugin("org.jetbrains.kotlin.kapt")
+        plugin("org.jetbrains.kotlin.plugin.allopen")
+    }
+}
