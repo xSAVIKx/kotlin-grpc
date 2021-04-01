@@ -3,7 +3,7 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 option java_package = "io.spine";
-option java_outer_classname = "Greeter";
+option java_outer_classname = "GreeterProto";
 option objc_class_prefix = "HLW";
 
 package io.spine;
