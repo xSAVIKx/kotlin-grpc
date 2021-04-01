@@ -1,0 +1,6 @@
+applicationType: grpc
+defaultPackage: io.spine
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [annotation-api, app-name, gcp-cloud-trace, github-workflow-google-cloud-run-graalvm, graalvm, gradle, grpc, jib, junit, kotlin, kotlin-application, kotlin-extension-functions, log4j2, netty-server, readme, shade, yaml]
