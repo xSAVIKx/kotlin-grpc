@@ -1,48 +1,15 @@
 import com.google.protobuf.gradle.*
+
 plugins {
     id("com.google.protobuf")
 }
 
-version = "0.1"
-group = "io.spine"
-
-val kotlinVersion=project.properties.get("kotlinVersion")
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
-    api("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     api("javax.annotation:javax.annotation-api:1.3.2")
     api("io.grpc:grpc-kotlin-stub:1.0.0")
 }
 
-java {
-    sourceCompatibility = JavaVersion.toVersion("11")
-}
-
-tasks {
-    compileKotlin {
-        kotlinOptions {
-            jvmTarget = "11"
-        }
-    }
-    compileTestKotlin {
-        kotlinOptions {
-            jvmTarget = "11"
-        }
-    }
-//
-//dockerBuild {
-//    images = ["${System.env.DOCKER_IMAGE ?: project.name}:$project.version"]
-//}
-//
-//dockerBuildNative {
-//    images = ["${System.env.DOCKER_IMAGE ?: project.name}:$project.version"]
-//}
-}
 sourceSets {
     main {
         java {
