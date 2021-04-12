@@ -1,3 +1,8 @@
 micronaut:
   application:
     name: kotlinGrpc
+grpc:
+  server:
+    port: 14552
+    keep-alive-time: 3h
+    max-inbound-message-size: 1024
