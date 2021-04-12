@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: kotlinGrpc
+    name: kotlinGrpcServer
 grpc:
   server:
     port: 14552

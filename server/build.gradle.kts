@@ -33,7 +33,7 @@ dependencies {
 
 
 application {
-    mainClass.set("io.spine.ApplicationKt")
+    mainClass.set("io.spine.server.ApplicationKt")
 }
 tasks {
 //

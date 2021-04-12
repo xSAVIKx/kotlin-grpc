@@ -1,4 +1,4 @@
-package io.spine
+package io.spine.server
 
 import io.micronaut.runtime.Micronaut.*
 fun main(args: Array<String>) {

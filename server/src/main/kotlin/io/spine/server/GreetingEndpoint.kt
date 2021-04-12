@@ -1,4 +1,4 @@
-package io.spine
+package io.spine.server
 
 import io.spine.model.GreeterGrpcKt
 import io.spine.model.HelloReply
