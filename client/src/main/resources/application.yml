@@ -1,3 +1,10 @@
 micronaut:
   application:
-    name: kotlinGrpc
+    name: kotlinGrpcClient
+grpc:
+  client:
+    plaintext: true
+    max-retry-attempts: 10
+  channels:
+    greeter:
+      address: 'http://localhost:14552'

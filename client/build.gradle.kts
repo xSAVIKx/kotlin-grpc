@@ -29,11 +29,12 @@ dependencies {
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation(project(":server"))
 }
 
 
 application {
-    mainClass.set("io.spine.ApplicationKt")
+    mainClass.set("io.spine.client.ApplicationKt")
 }
 
 tasks {
