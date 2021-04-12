@@ -31,16 +31,19 @@ jobs:
           version: '290.0.1'
           service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
           project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
-      - name: Docker Login
-        run: |
-          gcloud auth configure-docker
-      - name: Build And Push Docker Image
-        env:
-          GCLOUD_IMAGE_REPOSITORY: ${{ secrets.GCLOUD_IMAGE_REPOSITORY }}
-          TESTCONTAINERS_RYUK_DISABLED: true
-        run: |
-          export DOCKER_IMAGE=`echo "${GCLOUD_GCR}/${GCLOUD_PROJECT_ID}/${GCLOUD_IMAGE_REPOSITORY}/kotlin-grpc" | sed -e 's#//#/#' -e 's#^/##'`
-          ./gradlew check dockerPushNative --no-daemon
+      - name: build
+        run |
+          ./gradlew build --no-daemon
+#      - name: Docker Login
+#        run: |
+#          gcloud auth configure-docker
+#      - name: Build And Push Docker Image
+#        env:
+#          GCLOUD_IMAGE_REPOSITORY: ${{ secrets.GCLOUD_IMAGE_REPOSITORY }}
+#          TESTCONTAINERS_RYUK_DISABLED: true
+#        run: |
+#          export DOCKER_IMAGE=`echo "${GCLOUD_GCR}/${GCLOUD_PROJECT_ID}/${GCLOUD_IMAGE_REPOSITORY}/kotlin-grpc" | sed -e 's#//#/#' -e 's#^/##'`
+#          ./gradlew check dockerPushNative --no-daemon
 #      - name: Deploy Cloud Run
 #        run: |
 #          DOCKER_IMAGE_REPOSITORY=$(docker images --format "{{.Repository}}" | grep kotlin-grpc)
