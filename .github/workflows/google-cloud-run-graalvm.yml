@@ -33,6 +33,7 @@ jobs:
           project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
       - name: build
         run: |
+          chmod +x ./gradlew
           ./gradlew build --no-daemon
 #      - name: Docker Login
 #        run: |
