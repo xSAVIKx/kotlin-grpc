@@ -3,9 +3,9 @@ package io.spine.client
 import io.grpc.stub.StreamObserver
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
-import io.spine.GreeterGrpc
-import io.spine.HelloReply
-import io.spine.HelloRequest
+import io.spine.model.GreeterGrpc
+import io.spine.model.HelloReply
+import io.spine.model.HelloRequest
 
 @Controller("/kotlinGrpc")
 class KotlinGrpcController {

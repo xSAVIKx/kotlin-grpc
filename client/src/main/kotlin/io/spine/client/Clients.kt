@@ -3,7 +3,7 @@ package io.spine.client
 import io.grpc.ManagedChannel
 import io.micronaut.context.annotation.Factory
 import io.micronaut.grpc.annotation.GrpcChannel
-import io.spine.GreeterGrpc
+import io.spine.model.GreeterGrpc
 
 import javax.inject.Singleton
 

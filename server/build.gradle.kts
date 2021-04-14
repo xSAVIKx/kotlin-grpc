@@ -10,7 +10,7 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("io.spine.*")
+        annotations("io.spine.server.*")
     }
 }
 

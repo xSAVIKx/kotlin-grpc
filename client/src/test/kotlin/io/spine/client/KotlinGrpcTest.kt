@@ -9,8 +9,6 @@ import javax.inject.Inject
 @MicronautTest
 class KotlinGrpcTest {
 
-
-
     @Inject
     lateinit var application: EmbeddedApplication<*>
 
