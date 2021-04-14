@@ -1,4 +1,4 @@
-package io.spine
+package io.spine.server
 
 import io.grpc.ManagedChannel
 import io.micronaut.context.annotation.Factory
