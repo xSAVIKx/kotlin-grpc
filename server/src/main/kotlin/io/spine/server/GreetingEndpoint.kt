@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class GreetingEndpoint : GreeterGrpcKt.GreeterCoroutineImplBase() {
 
     override suspend fun sayHello(request: HelloRequest): HelloReply {
-        println("Saying hello!")
+        println("Client said: $request")
         val message = "Hello ${request.name}!"
         return HelloReply.newBuilder()
             .setMessage(message)
@@ -22,20 +22,21 @@ class GreetingEndpoint : GreeterGrpcKt.GreeterCoroutineImplBase() {
     }
 
     override fun serverTalking(request: HelloRequest): Flow<HelloReply> = flow {
-        println("Server is talking!")
+        println("Client said: $request")
         for (i in 1..10) {
-            delay(1000)
             val reply = HelloReply.newBuilder()
                 .setMessage("Hello, ${request.name} #${i}.")
                 .build()
+            println("Saying: $reply")
             emit(reply)
+            delay(1000)
         }
     }
 
     override suspend fun clientTalking(requests: Flow<HelloRequest>): HelloReply {
         println("Client is talking!")
         val clientRequests = requests.toList()
-        clientRequests.forEach { print(it) }
+        clientRequests.forEach { print("Client said: $it") }
         return HelloReply.newBuilder()
             .setMessage("Received ${clientRequests.size} requests. Thx!")
             .build()
@@ -44,9 +45,11 @@ class GreetingEndpoint : GreeterGrpcKt.GreeterCoroutineImplBase() {
     override fun talkingTogether(requests: Flow<HelloRequest>): Flow<HelloReply> = flow {
         println("Talking together!")
         requests.collect {
+            println("Client said: $it")
             val reply = HelloReply.newBuilder()
                 .setMessage("Hello, ${it.name}.")
                 .build()
+            println("Server replied: $reply")
             emit(reply)
         }
     }
