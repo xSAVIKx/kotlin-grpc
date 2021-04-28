@@ -48,8 +48,9 @@ class ClientController(@Inject val client: GreeterGrpc.GreeterStub) {
             val request = HelloRequest.newBuilder()
                 .setName("World #${i}!")
                 .build()
+            println("Client said: $request")
             requestConsumer.onNext(request)
-            Thread.sleep(100)
+            Thread.sleep(1000)
         }
         requestConsumer.onCompleted()
         observer.waitTillCompleted()
@@ -67,8 +68,9 @@ class ClientController(@Inject val client: GreeterGrpc.GreeterStub) {
             val request = HelloRequest.newBuilder()
                 .setName("World #${i}!")
                 .build()
+            println("Client said: $request")
             requestConsumer.onNext(request)
-            Thread.sleep(100)
+            Thread.sleep(1000)
         }
         requestConsumer.onCompleted()
         observer.waitTillCompleted()
