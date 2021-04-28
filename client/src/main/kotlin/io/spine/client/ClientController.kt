@@ -6,38 +6,44 @@ import io.micronaut.http.annotation.Get
 import io.spine.model.GreeterGrpc
 import io.spine.model.HelloReply
 import io.spine.model.HelloRequest
+import javax.inject.Inject
 
 @Controller("/client")
-class ClientController {
+class ClientController(@Inject val client: GreeterGrpc.GreeterStub) {
 
     @Get(uri = "/sayHello", produces = ["text/plain"])
-    fun sayHello(client: GreeterGrpc.GreeterStub): String {
+    fun sayHello(): String {
+        println("Saying hello!")
         val observer = MemoizingObserver()
         val request = HelloRequest.newBuilder()
             .setName("World!")
             .build()
-        client.sayHello(request, observer)
+        client.withWaitForReady().sayHello(request, observer)
+        observer.waitTillCompleted()
         val replies = observer.replies()
         println(replies)
         return replies.toString()
     }
 
     @Get(uri = "/serverTalking", produces = ["text/plain"])
-    fun serverTalking(client: GreeterGrpc.GreeterStub): String {
+    fun serverTalking(): String {
+        println("Server is talking!")
         val observer = MemoizingObserver()
         val request = HelloRequest.newBuilder()
             .setName("World!")
             .build()
-        client.serverTalking(request, observer)
+        client.withWaitForReady().serverTalking(request, observer)
+        observer.waitTillCompleted()
         val replies = observer.replies()
         println(replies)
         return replies.toString()
     }
 
     @Get(uri = "/clientTalking", produces = ["text/plain"])
-    fun clientTalking(client: GreeterGrpc.GreeterStub): String {
+    fun clientTalking(): String {
+        println("Client is talking!")
         val observer = MemoizingObserver()
-        val requestConsumer = client.clientTalking(observer)
+        val requestConsumer = client.withWaitForReady().clientTalking(observer)
         for (i in 1..10) {
             val request = HelloRequest.newBuilder()
                 .setName("World #${i}!")
@@ -46,15 +52,17 @@ class ClientController {
             Thread.sleep(100)
         }
         requestConsumer.onCompleted()
+        observer.waitTillCompleted()
         val replies = observer.replies()
         println(replies)
         return replies.toString()
     }
 
     @Get(uri = "/talkingTogether", produces = ["text/plain"])
-    fun talkingTogether(client: GreeterGrpc.GreeterStub): String {
+    fun talkingTogether(): String {
+        println("Talking together!")
         val observer = MemoizingObserver()
-        val requestConsumer = client.talkingTogether(observer)
+        val requestConsumer = client.withWaitForReady().talkingTogether(observer)
         for (i in 1..5) {
             val request = HelloRequest.newBuilder()
                 .setName("World #${i}!")
@@ -63,6 +71,7 @@ class ClientController {
             Thread.sleep(100)
         }
         requestConsumer.onCompleted()
+        observer.waitTillCompleted()
         val replies = observer.replies()
         println(replies)
         return replies.toString()
@@ -72,6 +81,7 @@ class ClientController {
 class MemoizingObserver : StreamObserver<HelloReply> {
 
     private val replies: MutableList<HelloReply?> = ArrayList()
+    var completed = false
 
     fun replies(): List<HelloReply> {
         return replies.filterNotNull()
@@ -84,10 +94,18 @@ class MemoizingObserver : StreamObserver<HelloReply> {
     override fun onError(t: Throwable?) {
         System.err.println("Error during processing.")
         t?.printStackTrace()
+        completed = true
     }
 
     override fun onCompleted() {
         println("Completed.")
+        completed = true
     }
 
+    fun waitTillCompleted() {
+        while (!completed) {
+            print("Request not finished. Sleeping.")
+            Thread.sleep(1000)
+        }
+    }
 }
