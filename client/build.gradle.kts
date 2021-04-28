@@ -1,4 +1,6 @@
-import com.google.protobuf.gradle.*
+import io.micronaut.gradle.MicronautRuntime
+import io.micronaut.gradle.MicronautTestRuntime
+
 plugins {
     id("com.github.johnrengelman.shadow")
     id("io.micronaut.application")
@@ -6,8 +8,8 @@ plugins {
 }
 
 micronaut {
-    runtime("netty")
-    testRuntime("junit5")
+    runtime(MicronautRuntime.NETTY)
+    testRuntime(MicronautTestRuntime.JUNIT_5)
     processing {
         incremental(true)
         annotations("io.spine.client.*")
@@ -34,7 +36,7 @@ dependencies {
 
 
 application {
-    mainClass.set("io.spine.client.ApplicationKt")
+    mainClass.set("io.spine.client.Application")
 }
 
 tasks {
