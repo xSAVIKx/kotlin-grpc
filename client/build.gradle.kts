@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.micronaut.gradle.MicronautRuntime
 import io.micronaut.gradle.MicronautTestRuntime
 
@@ -5,6 +6,7 @@ plugins {
     id("com.github.johnrengelman.shadow")
     id("io.micronaut.application")
     id("com.google.cloud.tools.jib")
+    id("com.google.cloud.tools.appengine-appyaml")
 }
 
 micronaut {
@@ -34,12 +36,29 @@ dependencies {
     testImplementation(project(":server"))
 }
 
+appengine {
+    deploy {
+        version = "1"
+    }
+    stage {
+        setAppEngineDirectory("src/main/appengine")
+        setArtifact(file("${buildDir}/libs/client-all.jar"))
+    }
+}
 
 application {
     mainClass.set("io.spine.client.Application")
 }
 
 tasks {
+    named<ShadowJar>("shadowJar") {
+        archiveBaseName.set("client")
+        mergeServiceFiles("desk.ref")
+        mergeServiceFiles {
+            setPath("META-INF")
+            exclude("META-INF/*.MF")
+        }
+    }
 //
 //dockerBuild {
 //    images = ["${System.env.DOCKER_IMAGE ?: project.name}:$project.version"]
