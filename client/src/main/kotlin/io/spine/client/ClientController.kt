@@ -21,7 +21,7 @@ class ClientController(@Inject val client: GreeterGrpc.GreeterStub) {
         client.withWaitForReady().sayHello(request, observer)
         observer.waitTillCompleted()
         val replies = observer.replies()
-        println(replies)
+        println("All replies: $replies")
         return replies.toString()
     }
 
@@ -35,7 +35,7 @@ class ClientController(@Inject val client: GreeterGrpc.GreeterStub) {
         client.withWaitForReady().serverTalking(request, observer)
         observer.waitTillCompleted()
         val replies = observer.replies()
-        println(replies)
+        println("All replies: $replies")
         return replies.toString()
     }
 
@@ -54,7 +54,7 @@ class ClientController(@Inject val client: GreeterGrpc.GreeterStub) {
         requestConsumer.onCompleted()
         observer.waitTillCompleted()
         val replies = observer.replies()
-        println(replies)
+        println("All replies: $replies")
         return replies.toString()
     }
 
@@ -73,7 +73,7 @@ class ClientController(@Inject val client: GreeterGrpc.GreeterStub) {
         requestConsumer.onCompleted()
         observer.waitTillCompleted()
         val replies = observer.replies()
-        println(replies)
+        println("All replies: $replies")
         return replies.toString()
     }
 }
@@ -88,6 +88,7 @@ class MemoizingObserver : StreamObserver<HelloReply> {
     }
 
     override fun onNext(value: HelloReply?) {
+        println("New reply from the server: $value")
         replies.add(value)
     }
 
@@ -104,7 +105,7 @@ class MemoizingObserver : StreamObserver<HelloReply> {
 
     fun waitTillCompleted() {
         while (!completed) {
-            print("Request not finished. Sleeping.")
+            println("Request not finished. Sleeping.")
             Thread.sleep(1000)
         }
     }
