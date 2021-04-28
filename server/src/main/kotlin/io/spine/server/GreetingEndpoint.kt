@@ -45,6 +45,7 @@ class GreetingEndpoint : GreeterGrpcKt.GreeterCoroutineImplBase() {
     override fun talkingTogether(requests: Flow<HelloRequest>): Flow<HelloReply> = flow {
         println("Talking together!")
         requests.collect {
+            delay(1000)
             println("Client said: $it")
             val reply = HelloReply.newBuilder()
                 .setMessage("Hello, ${it.name}.")
