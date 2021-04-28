@@ -1,11 +1,7 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.32"
-    id("org.jetbrains.kotlin.kapt") version "1.4.32"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.32"
-    id("com.github.johnrengelman.shadow") version "6.1.0" apply false
-    id("io.micronaut.application") version "1.4.2" apply false
-    id("com.google.protobuf") version "0.8.13" apply false
-    id("com.google.cloud.tools.jib") version "2.6.0" apply false
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.allopen")
 }
 
 version = "0.1"
